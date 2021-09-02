@@ -1,17 +1,16 @@
 <template>
   <div id="app">
-    <header :style="{ backgroundImage: 'url(' + bgLight + ')' }">
-        <div class="title">
-          <h1>to do</h1>
-          <img :src="nightBtn" alt="" v-if="night" @click="nightMode">
-          <img :src="dayBtn" alt="" v-else @click="nightMode">
-        </div>
-        <input type="text">
-    </header>
-    <main>
-      <toDoList msg="Welcome to Your Vue.js App"/>
-    </main>
-
+    <div class="container" :class="[night ? bgLight : bgDark]">
+      <header :style="{ backgroundImage: 'url(' + bgLightImg + ')' }">
+          <div class="title">
+            <h1>to do</h1>
+            <img :src="nightBtn" alt="" v-if="night" @click="nightMode">
+            <img :src="dayBtn" alt="" v-else @click="nightMode">
+          </div>
+          <input type="text" placeholder="Create a new todo…" :class="[night ? inputLight : bgDark]" v-model="todo" @keyup.enter="sendTodo">
+      </header>
+        <toDoList :test="naja" :thing="todoToChild"/>
+    </div>
   </div>
 </template>
 
@@ -23,19 +22,42 @@ export default {
   components: {
     toDoList
   },
+  props:{
+    test: String,
+    thing: String,
+  },
   data: function () {
     return {
-      bgLight: require('./assets/bg.png'),
+      bgLightImg: require('./assets/bg.png'),
       dayBtn: require('./assets/day.svg'),
       nightBtn: require('./assets/night.svg'),
+
       night: true,
+      bgDark: 'bg-dark',
+      bgLight: 'bg-light',
+      inputLight: 'input-light',
+
+      naja: '',
+
+      todo: '',
+      todoToChild: '',
     }
   },
   methods:{
     nightMode(){
       this.night = !this.night;
+      
+      if(this.night){
+          this.naja = 'dark';
+        }else{
+          this.naja = 'light';
+        }
+    },
+    sendTodo(){
+      this.todoToChild += this.todo;
     }
-  }
+  },
+
 }
 </script>
 
@@ -47,11 +69,11 @@ export default {
     padding: 0;
   }
 
-  #app {
-    background-color: $bg-light;
+  #app, .container {
     width: 100%;
     height: 100vh;
     font-family: 'Josefin Sans', sans-serif;
+    // background-color: $bg-light;
     header{
       height: 15vh;
       background-position: center; 
@@ -81,8 +103,23 @@ export default {
         max-width: 540px;
         border-radius: $br;
         border-style: none;
+        padding: .5rem 0 .5rem 1rem;
       }
     }
-    
+    .bg-light{
+      background-color: $bg-light;
+    }
+    .bg-dark{
+      background-color: $bg-dark;
+      color: white;
+    }
+
+    .input-light{
+      background-color: white;
+    }
+
+    .menu-dark{
+      background-color: $menu-dark;
+    }
   }
 </style>
