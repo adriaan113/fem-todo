@@ -3,12 +3,14 @@
     <h1 class="color-status">{{colorStatus}}{{thing}}{{itemsLeft}}</h1>
     <ul class="list-cotainer">
       <li class="item" :class="[darkLight ? dark : light]" v-for="(item,index) in alfie" :key="item.id" :counter="itemsLeft">
-          <input type="checkbox" name="" id="">
-          <p>{{item}}</p>
+          <input type="checkbox" name="" id="checkbox">
+          <!-- <label for=""></label> -->
+          <label for=checkbox>{{item}}</label>
           <span @click="deleteTodo(item,index)">x</span>
       </li>
       <li class="count-completed" :class="[darkLight ? dark : light]">
-        <p> {{counter}} items left</p>
+        <p v-if="counter != 0"> {{counter}} items left</p>
+        <p v-else>All done!</p>
         <p> clear completed</p>
       </li>
     </ul>
@@ -35,15 +37,10 @@ export default {
       light: 'light',
       darkLight: '',
       alfie: this.thing, 
-      isActive: [],
-
-      // counter: this.thing.length,
+      isActive: false,
     }
   },  
   computed:{
-    // satan(){
-    //   return this.thing.map((x)=> x);  
-    // },
     counter(){
       return this.alfie.length;
     }
@@ -56,10 +53,7 @@ export default {
         this.darkLight = true;
       }
     },
-    deleteTodo(name,idx){
-      // console.log(this.alfie);
-      //console.log(idx);
-      //console.log(this.alfie.indexOf(name));      
+    deleteTodo(name,idx){    
       if ( this.alfie.indexOf(name) === idx) { 
         return this.alfie.splice(idx, 1); 
       }
@@ -107,13 +101,13 @@ export default {
       &:last-child{
         border-bottom: none;
       }
-      input,p,span{
+      input,label,span{
         margin: 0 1rem;
       }
       span{
         cursor: pointer;
       }
-      p{
+      label{
         position: absolute;
         left: 30px;
       }
