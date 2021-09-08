@@ -1,37 +1,14 @@
 <template>
   <div class="list">
-    <h1 class="test">{{test}}</h1>
-    <ul>
-      <li class="item" :class="[darkLight ? dark : light]">
-        <!-- <div class="input-container"> -->
+    <h1 class="color-status">{{colorStatus}}{{thing}}{{itemsLeft}}</h1>
+    <ul class="list-cotainer">
+      <li class="item" :class="[darkLight ? dark : light]" v-for="(item,index) in alfie" :key="item.id" :counter="itemsLeft">
           <input type="checkbox" name="" id="">
-          <span class="checkmark"></span>
-          <p>{{thing}}</p>
-          <span>x</span>
-        <!-- </div> -->
-      </li>
-      <li class="item" :class="[darkLight ? dark : light]">
-        <input type="checkbox" name="" id="">
-        <p>niets</p>
-        <span>x</span>
-      </li>
-      <li class="item" :class="[darkLight ? dark : light]">
-        <input type="checkbox" name="" id="">
-        <p>dit</p>
-        <span>x</span>
-      </li>
-      <li class="item" :class="[darkLight ? dark : light]">
-        <input type="checkbox" name="" id="">
-        <p>dat</p>
-        <span>x</span>
-      </li>
-      <li class="item" :class="[darkLight ? dark : light]">
-        <input type="checkbox" name="" id="">
-        <p>koeka</p>
-        <span>x</span>
+          <p>{{item}} - {{index}}</p>
+          <span @click="deleteTodo(item,index)">x</span>
       </li>
       <li class="count-completed" :class="[darkLight ? dark : light]">
-        <p> 5 items left</p>
+        <p> {{counter}} items left</p>
         <p> clear completed</p>
       </li>
     </ul>
@@ -47,8 +24,9 @@
 export default {
   name: 'toDoList',
   props: {
-    test: String,
-    thing: String,
+    colorStatus: String,
+    thing: Array,
+    itemsLeft: Number,
   },
   data: function(){
     return {
@@ -56,25 +34,39 @@ export default {
       dark: 'dark',
       light: 'light',
       darkLight: '',
+      alfie: this.thing, 
+      isActive: [],
 
-      todo:'',
+      counter: this.itemsLeft,
     }
+  },  
+  computed:{
+    satan(){
+      return this.thing.map((x)=> x);  
+    },
   },
   methods:{
-    okido(){
-      if(this.test === 'dark'){
+    setThemeColor(){
+      if(this.colorStatus === 'dark'){
         this.darkLight = false;
-      }else if(this.test === 'light'){
+      }else if(this.colorStatus === 'light'){
         this.darkLight = true;
       }
-    }
+    },
+    deleteTodo(name,idx){
+      // console.log(this.alfie);
+      //console.log(idx);
+      //console.log(this.alfie.indexOf(name));      
+      if ( this.alfie.indexOf(name) === idx) { 
+        return this.alfie.splice(idx, 1); 
+      }
+    },
   },
   updated(){
-    this.okido();
+    this.setThemeColor();
   },
   mounted(){
-    // this.test;
-    this.okido();
+    this.setThemeColor();
   }
 }
 </script>
@@ -115,51 +107,9 @@ export default {
       input,p,span{
         margin: 0 1rem;
       }
-      // .input-container{
-      //   display: block;
-      //   position: relative;
-      //   padding-left: 35px;
-      //   margin-bottom: 12px;
-      //   cursor: pointer;
-      //   font-size: 22px;
-      //   -webkit-user-select: none;
-      //   -moz-user-select: none;
-      //   -ms-user-select: none;
-      //   user-select: none;
-
-      //   input[type="checkbox"]{
-      //     position: absolute;
-      //     opacity: 0;
-      //     cursor: pointer;
-      //     height: 0;
-      //     width: 0;
-      //     &:checked ~ .checkmark{
-      //       background-color: blue;
-      //       &:after{
-      //         display: block;
-      //       }
-      //     }
-      //   }
-      //   .checkmark{
-      //     position: absolute;
-      //     top: 0;
-      //     left: 0;
-      //     height: 25px;
-      //     width: 25px;
-      //     background-color: red;
-      //     // border-radius: 50%;
-      //     &:after{
-      //       content: '';
-      //       position: absolute;
-      //       display: none;
-      //     }
-      //     &:hover{
-      //       background-color: green;
-      //     }
-      //   }
-      //}
-
-      
+      span{
+        cursor: pointer;
+      }
       p{
         position: absolute;
         left: 30px;
@@ -211,7 +161,7 @@ export default {
     background-color: white;
   }
 
-  .test{
+  .color-status{
     display: none;
   }
 }

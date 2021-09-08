@@ -7,9 +7,9 @@
             <img :src="nightBtn" alt="" v-if="night" @click="nightMode">
             <img :src="dayBtn" alt="" v-else @click="nightMode">
           </div>
-          <input type="text" placeholder="Create a new todo…" :class="[night ? inputLight : bgDark]" v-model="todo" @keyup.enter="sendTodo">
+          <input type="text" placeholder="Create a new todo…" :class="[night ? inputLight : bgDark]" v-model="todo" @keyup.enter="todoOnClick">
       </header>
-        <toDoList :test="naja" :thing="todoToChild"/>
+        <toDoList :color-status="color" :thing="todoToChild" :items-left="counter"/>
     </div>
   </div>
 </template>
@@ -23,8 +23,9 @@ export default {
     toDoList
   },
   props:{
-    test: String,
-    thing: String,
+    colorStatus: String,
+    thing: Array,
+    itemsLeft: Number,
   },
   data: function () {
     return {
@@ -37,10 +38,12 @@ export default {
       bgLight: 'bg-light',
       inputLight: 'input-light',
 
-      naja: '',
+      color: '',
 
       todo: '',
-      todoToChild: '',
+      todoToChild: [],
+
+      counter: 0,
     }
   },
   methods:{
@@ -48,13 +51,15 @@ export default {
       this.night = !this.night;
       
       if(this.night){
-          this.naja = 'dark';
+          this.color = 'dark';
         }else{
-          this.naja = 'light';
+          this.color = 'light';
         }
     },
-    sendTodo(){
-      this.todoToChild += this.todo;
+    todoOnClick(){
+      this.todoToChild.push(this.todo);
+      this.counter += 1;
+      this.todo = '';
     }
   },
 
