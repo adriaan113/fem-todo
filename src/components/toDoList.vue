@@ -4,7 +4,7 @@
     <ul class="list-cotainer">
       <li class="item" :class="[darkLight ? dark : light]" v-for="(item,index) in alfie" :key="item.id" :counter="itemsLeft">
           <input type="checkbox" name="" id="">
-          <p>{{item}} - {{index}}</p>
+          <p>{{item}}</p>
           <span @click="deleteTodo(item,index)">x</span>
       </li>
       <li class="count-completed" :class="[darkLight ? dark : light]">
@@ -37,13 +37,16 @@ export default {
       alfie: this.thing, 
       isActive: [],
 
-      counter: this.itemsLeft,
+      // counter: this.thing.length,
     }
   },  
   computed:{
-    satan(){
-      return this.thing.map((x)=> x);  
-    },
+    // satan(){
+    //   return this.thing.map((x)=> x);  
+    // },
+    counter(){
+      return this.alfie.length;
+    }
   },
   methods:{
     setThemeColor(){
