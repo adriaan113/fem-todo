@@ -1,8 +1,17 @@
 <template>
   <div class="list">
     <h1 class="color-status">{{colorStatus}}{{thing}}{{itemsLeft}}</h1>
-    <ul class="list-cotainer">
-      <li class="item" :class="[darkLight ? dark : light]" v-for="(item,index) in alfie" :key="item.id" :counter="itemsLeft">
+    <ul class="list-cotainer" >
+      <li class="item" 
+          :class="[darkLight ? dark : light]" 
+          v-for="(item,index) in alfie" 
+          :key="item.id" 
+          :counter="itemsLeft"
+          draggable
+          @dragover="(e) => onDragOver(item, index, e)" 
+          @dragend="(e) => finishDrag(item, index, e)"
+          @dragstart="(e) => startDrag(item, index, e)"
+          >
           <input type="checkbox" name="" id="checkbox"  v-model="item.completed">
           <label for="checkbox" :class="{completed: item.completed}">{{item.msg}}</label>
           <span @click="deleteTodo(item,index)">x</span>
@@ -13,11 +22,11 @@
         <p class="clear-completed" @click="clearCompleted"> clear completed</p>
       </li>
     </ul>
-    <ul class="control">
+    <!-- <ul class="control">
       <li class="select-items" :class="[darkLight ? dark : light]">all</li>
       <li class="select-items" :class="[darkLight ? dark : light]">active</li>
       <li class="select-items" :class="[darkLight ? dark : light]">completed</li>
-    </ul>
+    </ul> -->
   </div>
 </template>
 
@@ -37,7 +46,13 @@ export default {
       
       darkLight: '',
       alfie: this.thing, 
+
       isChecked: false,
+
+      over: {},
+      startLoc: 0,
+      dragging: false,
+      dragFrom: {}
     }
   },  
   computed:{
@@ -59,7 +74,6 @@ export default {
       }
     },
     checkThis(name,idx){
-      //console.log(this.alfie);
       if ( this.alfie.indexOf(name) === idx) { 
         return this.alfie.splice(idx, 1); 
       }
@@ -67,18 +81,32 @@ export default {
     clearCompleted(){
       for(let i = this.alfie.length -1; i>=0;--i){
         if(this.alfie[i].completed){
-           this.alfie.splice(i,1);
+          this.alfie.splice(i,1);
         }
       }
-    }
+    },
+    startDrag(item, i, e) {
+      this.startLoc = e.clientY;
+      this.dragging = true;
+      this.dragFrom = item;
+      console.log(this.dragFrom);
+    },
+    finishDrag(item, pos) {
+      this.alfie.splice(pos, 1)
+      this.alfie.splice(this.over.pos, 0, item);
+      this.over = {}
+    },
+    
+    onDragOver(item, pos, e) {
+      const dir = (this.startLoc < e.clientY) ? 'down': 'up';
+      this.over = { item, pos, dir };        
+    },
   },
   updated(){
     this.setThemeColor();
-    //this.checkThis();
   },
   mounted(){
     this.setThemeColor();
-    //this.checkThis();
   }
 }
 </script>
