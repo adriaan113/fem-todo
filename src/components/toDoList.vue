@@ -10,7 +10,7 @@
       <li class="count-completed" :class="[darkLight ? dark : light]">
         <p v-if="counter != 0"> {{counter}} items left</p>
         <p v-else>All done!</p>
-        <p> clear completed</p>
+        <p class="clear-completed" @click="clearCompleted"> clear completed</p>
       </li>
     </ul>
     <ul class="control">
@@ -60,8 +60,15 @@ export default {
     },
     checkThis(name,idx){
       //console.log(this.alfie);
-       if ( this.alfie.indexOf(name) === idx) { 
+      if ( this.alfie.indexOf(name) === idx) { 
         return this.alfie.splice(idx, 1); 
+      }
+    },
+    clearCompleted(){
+      for(let i = this.alfie.length -1; i>=0;--i){
+        if(this.alfie[i].completed){
+           this.alfie.splice(i,1);
+        }
       }
     }
   },
@@ -138,7 +145,9 @@ export default {
         left: auto;
         margin: 0 1rem;
       }
-      
+      .clear-completed{
+        cursor: pointer;
+      }
     }
   }
   .control{
