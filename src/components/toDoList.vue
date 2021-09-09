@@ -3,9 +3,8 @@
     <h1 class="color-status">{{colorStatus}}{{thing}}{{itemsLeft}}</h1>
     <ul class="list-cotainer">
       <li class="item" :class="[darkLight ? dark : light]" v-for="(item,index) in alfie" :key="item.id" :counter="itemsLeft">
-          <input type="checkbox" name="" id="checkbox">
-          <!-- <label for=""></label> -->
-          <label for=checkbox>{{item}}</label>
+          <input type="checkbox" name="" id="checkbox"  v-model="item.completed">
+          <label for="checkbox" :class="{completed: item.completed}">{{item.msg}}</label>
           <span @click="deleteTodo(item,index)">x</span>
       </li>
       <li class="count-completed" :class="[darkLight ? dark : light]">
@@ -35,15 +34,16 @@ export default {
       night: true,
       dark: 'dark',
       light: 'light',
+      
       darkLight: '',
       alfie: this.thing, 
-      isActive: false,
+      isChecked: false,
     }
   },  
   computed:{
     counter(){
       return this.alfie.length;
-    }
+    },
   },
   methods:{
     setThemeColor(){
@@ -58,12 +58,20 @@ export default {
         return this.alfie.splice(idx, 1); 
       }
     },
+    checkThis(name,idx){
+      //console.log(this.alfie);
+       if ( this.alfie.indexOf(name) === idx) { 
+        return this.alfie.splice(idx, 1); 
+      }
+    }
   },
   updated(){
     this.setThemeColor();
+    //this.checkThis();
   },
   mounted(){
     this.setThemeColor();
+    //this.checkThis();
   }
 }
 </script>
@@ -110,6 +118,10 @@ export default {
       label{
         position: absolute;
         left: 30px;
+      }
+      .completed{
+        color: grey;
+        text-decoration: line-through;
       }
     }
     .count-completed{

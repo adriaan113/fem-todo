@@ -7,7 +7,7 @@
             <img :src="nightBtn" alt="" v-if="night" @click="nightMode">
             <img :src="dayBtn" alt="" v-else @click="nightMode">
           </div>
-          <input type="text" placeholder="Create a new todo…" :class="[night ? inputLight : bgDark]" v-model="todo" @keyup.enter="todoOnClick">
+          <input type="text" placeholder="Create a new todo…" :class="[night ? inputLight : bgDark]" v-model="todo.msg" @keyup.enter="todoOnClick">
       </header>
         <toDoList :color-status="color" :thing="todoToChild" :items-left="counter"/>
     </div>
@@ -40,7 +40,11 @@ export default {
 
       color: '',
 
-      todo: '',
+      todo: {
+        msg:'',
+        completed:false,
+      },
+
       todoToChild: [],
 
       counter: 0,
@@ -59,7 +63,10 @@ export default {
     todoOnClick(){
       this.todoToChild.push(this.todo);
       this.counter += 1;
-      this.todo = '';
+      this.todo = {
+        msg: '',
+        completed: false,
+      };
     }
   },
 
