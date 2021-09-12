@@ -43,9 +43,12 @@ export default {
       night: true,
       dark: 'dark',
       light: 'light',
-      
       darkLight: '',
-      alfie: this.thing, 
+      //alfie: this.thing, 
+      result: [],
+      //alfie:'',
+      // alfie: this.thing.map(x => ({...x})),
+  
 
       isChecked: false,
 
@@ -59,8 +62,14 @@ export default {
     counter(){
       return this.alfie.length;
     },
+    alfie(){
+      return this.thing.map(x => ({...x}));
+       
+      //return this.thing;
+    }
   },
-  methods:{
+  methods:{   
+    
     setThemeColor(){
       if(this.colorStatus === 'dark'){
         this.darkLight = false;
@@ -70,8 +79,10 @@ export default {
     },
     deleteTodo(name,idx){    
       if ( this.alfie.indexOf(name) === idx) { 
-        return this.alfie.splice(idx, 1); 
+        this.alfie.splice(idx, 1); 
+        this.$forceUpdate();//niet heel mooi toch dit? maar ik kon even niets anders verzinnen. Reactivity confusion
       }
+      
     },
     checkThis(name,idx){
       if ( this.alfie.indexOf(name) === idx) { 
@@ -99,15 +110,15 @@ export default {
     
     onDragOver(item, pos, e) {
       const dir = (this.startLoc < e.clientY) ? 'down': 'up';
-      this.over = { item, pos, dir };        
+      this.over = { item, pos, dir };      
     },
   },
   updated(){
-    this.setThemeColor();
+    this.setThemeColor();  
   },
   mounted(){
     this.setThemeColor();
-  }
+  },
 }
 </script>
 
@@ -141,6 +152,7 @@ export default {
       padding: .5rem 0;
       border-bottom: 1px solid $bg-dark;
       align-items: center;
+      cursor: grab;
       &:last-child{
         border-bottom: none;
       }
