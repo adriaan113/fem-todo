@@ -91,16 +91,6 @@ export default {
       
     },
     clearCompleted(){
-      // for(let i = this.alfie.length -1; i>=0;--i){
-      //   if(this.alfie[i].completed){
-      //     //this.$emit('complete',i);
-      //     // this.alfie.splice(i,1);
-      //     //console.log(this.alfie[i].completed);
-      //     //this.checked = true;
-         
-      //   }
-      // }
-      // console.log(this.alfie.filter((item)=>item.completed));
       this.completed= this.alfie.filter((item)=>item.completed);
       console.log(this.completed);
 
@@ -112,7 +102,8 @@ export default {
     },
 
     showCompleted(){
-        this.alfie.splice(this.alfie,this.alfie.length);
+        this.alfie.splice(this.alfie,this.alfie.length);//niet goed. kan ie niet onzichtbaar worden gemaakt?
+        this.$emit('complete',this.completed);
         this.alfie.push(...this.completed);
         
         console.log(this.alfie);   

@@ -9,7 +9,7 @@
           </div>
           <input type="text" placeholder="Create a new todo…" :class="[night ? inputLight : bgDark]" v-model="todo.msg" @keyup.enter="todoOnClick">
       </header>
-        <toDoList @delete="deleteTodo" :key="componentKey" :color-status="color" :thing="todoToChild" :items-left="counter"/>
+        <toDoList @complete="markComplete" @delete="deleteTodo" :key="componentKey" :color-status="color" :thing="todoToChild" :items-left="counter"/>
     </div>
   </div>
 </template>
@@ -53,17 +53,18 @@ export default {
     }
   },
   methods:{
-    // completeTodo(i){
-    //   //console.log(i)
-    //   for(let n=0;n<this.todoToChild.length;n++){
-    //     //console.log(n);
-    //     if(n===i){
-    //       this.todoToChild[n].completed = true;
-    //       //console.log('hahaha');
-    //     }
-    //   }
+    markComplete(completeTodo){
+      for(let i=0;i<this.todoToChild.length;i++){
+        for(let item of completeTodo){
+          if(this.todoToChild[i].msg === item.msg){
+            this.todoToChild[i].completed = true;
+          }
+        }
+        
+      }
       
-    // },
+    },
+
     deleteTodo(idx){
       // console.log(idx);
       this.todoToChild.splice(idx,1);
