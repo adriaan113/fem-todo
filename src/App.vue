@@ -9,7 +9,7 @@
           </div>
           <input type="text" placeholder="Create a new todo…" :class="[night ? inputLight : bgDark]" v-model="todo.msg" @keyup.enter="todoOnClick">
       </header>
-        <toDoList :key="componentKey" :color-status="color" :thing="todoToChild" :items-left="counter"/>
+        <toDoList @delete="deleteTodo" :key="componentKey" :color-status="color" :thing="todoToChild" :items-left="counter"/>
     </div>
   </div>
 </template>
@@ -53,7 +53,10 @@ export default {
     }
   },
   methods:{
-    
+    deleteTodo(idx){
+      console.log(idx);
+      this.todoToChild.splice(idx,1);
+    },
     forceRerender() {
       this.componentKey += 1;
     },

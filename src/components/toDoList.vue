@@ -80,8 +80,8 @@ export default {
     deleteTodo(name,idx){    
       if ( this.alfie.indexOf(name) === idx) { 
         this.alfie.splice(idx, 1);
-        // this.$emit('god'); 
-        this.$forceUpdate();//niet heel mooi toch dit? maar ik kon even niets anders verzinnen. Reactivity confusion
+        this.$emit('delete',idx); 
+        //this.$forceUpdate();//niet heel mooi toch dit? maar ik kon even niets anders verzinnen. Reactivity confusion,
         
       }
       
