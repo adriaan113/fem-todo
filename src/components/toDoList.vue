@@ -3,7 +3,7 @@
     <h1 class="color-status">{{colorStatus}}{{thing}}{{itemsLeft}}</h1>
     <ul class="list-cotainer" >
       <li class="item" 
-          :class="[darkLight ? dark : light]" 
+          :class="toggleDarkLight" 
           v-for="(item,index) in alfie" 
           :key="item.id" 
           :counter="itemsLeft"
@@ -16,16 +16,20 @@
           <label for="checkbox" :class="{completed: item.completed}">{{item.msg}}</label>
           <span @click="deleteTodo(item,index)">x</span>
       </li>
-      <li class="count-completed" :class="[darkLight ? dark : light]">
+      <li class="count-completed" :class="toggleDarkLight">
         <p v-if="counter != 0"> {{counter}} items left</p>
         <p v-else>All done!</p>
         <p class="clear-completed" @click="clearCompleted"> clear completed</p>
       </li>
     </ul>
     <ul class="control">
-      <li class="select-items" :class="[darkLight ? dark : light]">all</li>
-      <li class="select-items" :class="[darkLight ? dark : light]">active</li>
-      <li class="select-items" :class="[darkLight ? dark : light]">completed</li>
+      <li class="select-items" :class="toggleDarkLight">all</li>
+      <li class="select-items" :class="toggleDarkLight">active</li>
+      <li class="select-items" 
+          :class="toggleDarkLight" 
+          @click="showCompleted">
+          completed
+      </li>
     </ul>
   </div>
 </template>
@@ -44,13 +48,15 @@ export default {
       dark: 'dark',
       light: 'light',
       darkLight: '',
-      //alfie: this.thing, 
+
       result: [],
-      //alfie:'',
+
       alfie: this.thing.map(x => ({...x})),
   
+      completed:[],
+      //checked: false,
 
-      isChecked: false,
+      done:'done',
 
       over: {},
       startLoc: 0,
@@ -62,11 +68,9 @@ export default {
     counter(){
       return this.alfie.length;
     },
-    // alfie(){
-    //   return this.thing.map(x => ({...x}));
-       
-    //   //return this.thing;
-    // }
+    toggleDarkLight(){
+      return this.darkLight ? this.dark : this.light;
+    },
   },
   methods:{   
     
@@ -86,19 +90,44 @@ export default {
       }
       
     },
-    // checkThis(name,idx){
-    //   if ( this.alfie.indexOf(name) === idx) { 
-    //     this.alfie.splice(idx, 1); 
-    //   }
-    // },
     clearCompleted(){
+      // for(let i = this.alfie.length -1; i>=0;--i){
+      //   if(this.alfie[i].completed){
+      //     //this.$emit('complete',i);
+      //     // this.alfie.splice(i,1);
+      //     //console.log(this.alfie[i].completed);
+      //     //this.checked = true;
+         
+      //   }
+      // }
+      // console.log(this.alfie.filter((item)=>item.completed));
+      this.completed= this.alfie.filter((item)=>item.completed);
+      console.log(this.completed);
+
       for(let i = this.alfie.length -1; i>=0;--i){
         if(this.alfie[i].completed){
           this.alfie.splice(i,1);
-          // this.$forceUpdate();
         }
       }
     },
+
+    showCompleted(){
+        this.alfie.splice(this.alfie,this.alfie.length);
+        this.alfie.push(...this.completed);
+        
+        console.log(this.alfie);   
+      },
+
+    showActive(){
+
+    },
+
+    showAll(){
+
+    },
+
+
+
     startDrag(item, i, e) {
       this.startLoc = e.clientY;
       this.dragging = true;
@@ -225,6 +254,9 @@ export default {
 
   .color-status{
     display: none;
+  }
+  .done{
+    display: none !important;
   }
 }
 

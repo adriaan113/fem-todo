@@ -53,8 +53,19 @@ export default {
     }
   },
   methods:{
+    // completeTodo(i){
+    //   //console.log(i)
+    //   for(let n=0;n<this.todoToChild.length;n++){
+    //     //console.log(n);
+    //     if(n===i){
+    //       this.todoToChild[n].completed = true;
+    //       //console.log('hahaha');
+    //     }
+    //   }
+      
+    // },
     deleteTodo(idx){
-      console.log(idx);
+      // console.log(idx);
       this.todoToChild.splice(idx,1);
     },
     forceRerender() {
