@@ -9,7 +9,7 @@
           </div>
           <input type="text" placeholder="Create a new todo…" :class="[night ? inputLight : bgDark]" v-model="todo.msg" @keyup.enter="todoOnClick">
       </header>
-        <toDoList :color-status="color" :thing="todoToChild" :items-left="counter"/>
+        <toDoList :key="componentKey" :color-status="color" :thing="todoToChild" :items-left="counter"/>
     </div>
   </div>
 </template>
@@ -48,9 +48,15 @@ export default {
       todoToChild: [],
 
       counter: 0,
+
+      componentKey: 0,
     }
   },
   methods:{
+    
+    forceRerender() {
+      this.componentKey += 1;
+    },
     nightMode(){
       this.night = !this.night;
       
@@ -67,6 +73,7 @@ export default {
         msg: '',
         completed: false,
       };
+      this.forceRerender();
     }
   },
 

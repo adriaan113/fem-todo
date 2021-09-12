@@ -22,11 +22,11 @@
         <p class="clear-completed" @click="clearCompleted"> clear completed</p>
       </li>
     </ul>
-    <!-- <ul class="control">
+    <ul class="control">
       <li class="select-items" :class="[darkLight ? dark : light]">all</li>
       <li class="select-items" :class="[darkLight ? dark : light]">active</li>
       <li class="select-items" :class="[darkLight ? dark : light]">completed</li>
-    </ul> -->
+    </ul>
   </div>
 </template>
 
@@ -47,7 +47,7 @@ export default {
       //alfie: this.thing, 
       result: [],
       //alfie:'',
-      // alfie: this.thing.map(x => ({...x})),
+      alfie: this.thing.map(x => ({...x})),
   
 
       isChecked: false,
@@ -62,11 +62,11 @@ export default {
     counter(){
       return this.alfie.length;
     },
-    alfie(){
-      return this.thing.map(x => ({...x}));
+    // alfie(){
+    //   return this.thing.map(x => ({...x}));
        
-      //return this.thing;
-    }
+    //   //return this.thing;
+    // }
   },
   methods:{   
     
@@ -79,20 +79,23 @@ export default {
     },
     deleteTodo(name,idx){    
       if ( this.alfie.indexOf(name) === idx) { 
-        this.alfie.splice(idx, 1); 
+        this.alfie.splice(idx, 1);
+        // this.$emit('god'); 
         this.$forceUpdate();//niet heel mooi toch dit? maar ik kon even niets anders verzinnen. Reactivity confusion
+        
       }
       
     },
-    checkThis(name,idx){
-      if ( this.alfie.indexOf(name) === idx) { 
-        return this.alfie.splice(idx, 1); 
-      }
-    },
+    // checkThis(name,idx){
+    //   if ( this.alfie.indexOf(name) === idx) { 
+    //     this.alfie.splice(idx, 1); 
+    //   }
+    // },
     clearCompleted(){
       for(let i = this.alfie.length -1; i>=0;--i){
         if(this.alfie[i].completed){
           this.alfie.splice(i,1);
+          // this.$forceUpdate();
         }
       }
     },
@@ -207,6 +210,7 @@ export default {
       height: 2rem;
       padding: .5rem 0;
       align-items: center;
+      cursor: pointer;
     }
   }
 
