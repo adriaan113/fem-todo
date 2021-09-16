@@ -23,8 +23,18 @@
       </li>
     </ul>
     <ul class="control">
-      <li class="select-items" :class="toggleDarkLight">all</li>
-      <li class="select-items" :class="toggleDarkLight">active</li>
+      <li class="select-items" 
+          :class="toggleDarkLight"
+          @click="showAll"
+          >
+          all
+      </li>
+      <li class="select-items" 
+          :class="toggleDarkLight"
+          @click="showActive"
+          >
+          active
+      </li>
       <li class="select-items" 
           :class="toggleDarkLight" 
           @click="showCompleted">
@@ -110,11 +120,22 @@ export default {
       },
 
     showActive(){
-
+      this.alfie.splice(this.alfie,this.alfie.length);
+      for(let i=0;i<this.thing.length;i++){
+        if(this.thing[i].completed===false){
+          this.alfie.push(this.thing[i]);
+        }
+      }
     },
 
     showAll(){
-
+      //console.log(this.alfie.concat(this.completed));
+      this.alfie.splice(this.alfie,this.alfie.length);
+      for(let i=0;i<this.thing.length;i++){
+          this.alfie.push(this.thing[i]);
+        }
+    
+      //console.log(test);
     },
 
 
