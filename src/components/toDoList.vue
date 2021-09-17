@@ -112,12 +112,16 @@ export default {
     },
 
     showCompleted(){
+
+      if(this.completed.length===0){
+        return
+      }else{
         this.alfie.splice(this.alfie,this.alfie.length);//niet goed. kan ie niet onzichtbaar worden gemaakt?
         this.$emit('complete',this.completed);
         this.alfie.push(...this.completed);
-        
-        console.log(this.alfie);   
-      },
+        console.log(this.alfie);  
+      }   
+    },
 
     showActive(){
       this.alfie.splice(this.alfie,this.alfie.length);
