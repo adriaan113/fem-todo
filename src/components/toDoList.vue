@@ -12,7 +12,7 @@
           @dragend="(e) => finishDrag(item, index, e)"
           @dragstart="(e) => startDrag(item, index, e)"
           >
-          <input type="checkbox" name="" id="checkbox"  v-model="item.completed">
+          <input type="checkbox" name="" id="checkbox"  v-model="item.completed" @change="addCompleted">
           <label for="checkbox" :class="{completed: item.completed}">{{item.msg}}</label>
           <span @click="deleteTodo(item,index)">x</span>
       </li>
@@ -95,23 +95,14 @@ export default {
       if ( this.alfie.indexOf(name) === idx) { 
         this.alfie.splice(idx, 1);
         this.$emit('delete',idx); 
-        //this.$forceUpdate();//niet heel mooi toch dit? maar ik kon even niets anders verzinnen. Reactivity confusion,
-        
       }
       
     },
     addCompleted(){
       this.completed= this.alfie.filter((item)=>item.completed);
-      // for(let i=0;i<this.alfie.length;i++){
-      //   if(this.alfie[i].completed === true){
-            
-      //   }
-      // }
+      return this.completed;
     },
     clearCompleted(){
-      //this.completed= this.alfie.filter((item)=>item.completed);
-       console.log('hahahah');
-
       for(let i = this.alfie.length -1; i>=0;--i){
         if(this.alfie[i].completed){
           this.alfie.splice(i,1);
@@ -120,24 +111,16 @@ export default {
     },
 
     showCompleted(){
-
-      this.alfie.splice(this.alfie,this.alfie.length);
-      for(let i=0;i<this.thing.length;i++){
-        if(this.thing[i].completed===true){
-          this.alfie.push(this.thing[i]);
+      if(this.completed.length===0){
+        return
+      }else{
+        this.alfie.splice(this.alfie,this.alfie.length);
+        
+        for(let i=0;i<this.completed.length;i++){
+            this.$emit('complete',this.completed);
+            this.alfie.push(this.completed[i]);
         }
-      }
-
-      // if(this.completed.length===0){
-      //   return
-      // }else{
-
-        // this.alfie.splice(this.alfie,this.alfie.length);//niet goed. kan ie niet onzichtbaar worden gemaakt?
-        // this.$emit('complete',this.completed);
-        // this.alfie.push(...this.completed);
-        // console.log(this.alfie); 
-
-      //}   
+      } 
     },
 
     showActive(){
@@ -150,16 +133,11 @@ export default {
     },
 
     showAll(){
-      //console.log(this.alfie.concat(this.completed));
       this.alfie.splice(this.alfie,this.alfie.length);
       for(let i=0;i<this.thing.length;i++){
           this.alfie.push(this.thing[i]);
         }
-    
-      //console.log(test);
     },
-
-
 
     startDrag(item, i, e) {
       this.startLoc = e.clientY;
@@ -180,7 +158,6 @@ export default {
   },
   updated(){
     this.setThemeColor();  
-    this.addCompleted();
   },
   mounted(){
     this.setThemeColor();
