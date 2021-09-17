@@ -100,9 +100,17 @@ export default {
       }
       
     },
-    clearCompleted(){
+    addCompleted(){
       this.completed= this.alfie.filter((item)=>item.completed);
-      console.log(this.completed);
+      // for(let i=0;i<this.alfie.length;i++){
+      //   if(this.alfie[i].completed === true){
+            
+      //   }
+      // }
+    },
+    clearCompleted(){
+      //this.completed= this.alfie.filter((item)=>item.completed);
+       console.log('hahahah');
 
       for(let i = this.alfie.length -1; i>=0;--i){
         if(this.alfie[i].completed){
@@ -113,14 +121,23 @@ export default {
 
     showCompleted(){
 
-      if(this.completed.length===0){
-        return
-      }else{
-        this.alfie.splice(this.alfie,this.alfie.length);//niet goed. kan ie niet onzichtbaar worden gemaakt?
-        this.$emit('complete',this.completed);
-        this.alfie.push(...this.completed);
-        console.log(this.alfie);  
-      }   
+      this.alfie.splice(this.alfie,this.alfie.length);
+      for(let i=0;i<this.thing.length;i++){
+        if(this.thing[i].completed===true){
+          this.alfie.push(this.thing[i]);
+        }
+      }
+
+      // if(this.completed.length===0){
+      //   return
+      // }else{
+
+        // this.alfie.splice(this.alfie,this.alfie.length);//niet goed. kan ie niet onzichtbaar worden gemaakt?
+        // this.$emit('complete',this.completed);
+        // this.alfie.push(...this.completed);
+        // console.log(this.alfie); 
+
+      //}   
     },
 
     showActive(){
@@ -163,6 +180,7 @@ export default {
   },
   updated(){
     this.setThemeColor();  
+    this.addCompleted();
   },
   mounted(){
     this.setThemeColor();
