@@ -4,8 +4,16 @@ $bg-dark: #171928;
 
 $menu-dark: #25273D;
 
+$text-color1: #9B9B9B;
+$border-color-light: $text-color1;
+
+$gradient-color-1: #55DDFF;
+$gradient-color-2: #C058F3;
+
 //borders
 $br: 6px;
 
 //font
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400&display=swap');
+//@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Roboto:wght@300&display=swap');

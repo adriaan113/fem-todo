@@ -109,7 +109,7 @@ export default {
     font-family: 'Josefin Sans', sans-serif;
     // background-color: $bg-light;
     header{
-      height: 15vh;
+      height: 23vh;
       background-position: center; 
       background-repeat: no-repeat;
       background-size: cover; 
