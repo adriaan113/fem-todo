@@ -219,11 +219,12 @@ export default {
 
 .list{
   width: 80%;
+  max-width: 540px;
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
   margin: -1rem auto 0;
-  font-family: 'Roboto', sans-serif;
+  font-family: $roboto-font;
   p{
     font-size: .8rem;
   }
@@ -243,13 +244,16 @@ export default {
       flex-flow: row nowrap;
       justify-content: space-between;
       position: relative;
-      height: 2rem;
+      height: 3rem;
       padding: .5rem 0;
       border-bottom: 1px solid $border-color-light;
       align-items: center;
       cursor: grab;
       &:last-child{
         border-bottom: none;
+      }
+      &:first-child{
+        border-radius: $br $br 0 0;
       }
       input,p,img{
         margin: 0 1rem;
@@ -272,7 +276,7 @@ export default {
       justify-content: space-between;
       width: 100%;
       position: relative;
-      height: 2rem;
+      height: 3rem;
       padding: .5rem 0;
       align-items: center;
       border-radius: $br;
@@ -295,18 +299,21 @@ export default {
     justify-content: center;
     padding: 0;
     border-radius: $br;
-    font-family: 'Josefin Sans', sans-serif;
+    font-family: $josefin-font;
     .select-items{
       width: 100%;
       display: flex;
       flex-flow: row nowrap;
       justify-content: center;
-      height: 2rem;
+      height: 3rem;
       padding: .5rem 0;
       align-items: center;
       cursor: pointer;
       border-radius: $br;
       color: $text-color1;
+      &:hover{
+        color:black;
+      }
     }
   }
 

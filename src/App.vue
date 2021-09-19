@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="container" :class="[night ? bgLight : bgDark]">
-      <header :style="{ backgroundImage: 'url(' + bgLightImg + ')' }">
+      <header :style="{ backgroundImage: 'url(' + currentBg + ')' }">
           <div class="title">
             <h1>to do</h1>
             <img :src="nightBtn" alt="" v-if="night" @click="nightMode">
@@ -10,6 +10,7 @@
           <input type="text" placeholder="Create a new todo…" :class="[night ? inputLight : bgDark]" v-model="todo.msg" @keyup.enter="todoOnClick">
       </header>
         <toDoList @complete="markComplete" @delete="deleteTodo" :key="componentKey" :color-status="color" :thing="todoToChild" :items-left="counter"/>
+        <p class="dragdrop-text">Drag and drop to reorder list</p>
     </div>
   </div>
 </template>
@@ -29,9 +30,13 @@ export default {
   },
   data: function () {
     return {
-      bgLightImg: require('./assets/bg.png'),
+      bgLightImage: require('./assets/bg.png'),
       dayBtn: require('./assets/day.svg'),
       nightBtn: require('./assets/night.svg'),
+
+      bgDarkImage: require('./assets/bg-night.png'),
+
+      currentBg: require('./assets/bg.png'),
 
       night: true,
       bgDark: 'bg-dark',
@@ -53,6 +58,13 @@ export default {
     }
   },
   methods:{
+    switchBg(){
+      if(this.night===true){
+        this.currentBg = this.bgLightImage;
+      }else{
+        this.currentBg = this.bgDarkImage;
+      }
+    },
     markComplete(completeTodo){
       for(let i=0;i<this.todoToChild.length;i++){
         for(let item of completeTodo){
@@ -80,6 +92,7 @@ export default {
         }else{
           this.color = 'light';
         }
+        this.switchBg();
     },
     todoOnClick(){
       this.todoToChild.push(this.todo);
@@ -101,12 +114,13 @@ export default {
   *{
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
   }
 
   #app, .container {
     width: 100%;
     height: 100vh;
-    font-family: 'Josefin Sans', sans-serif;
+    font-family: $josefin-font;
     // background-color: $bg-light;
     header{
       height: 23vh;
@@ -133,7 +147,7 @@ export default {
       }
       input{
         width: 80%;
-        height: 2rem;
+        height: 3rem;
         max-width: 540px;
         border-radius: $br;
         border-style: none;
@@ -154,6 +168,12 @@ export default {
 
     .menu-dark{
       background-color: $menu-dark;
+    }
+    .dragdrop-text{
+      text-align: center;
+      margin-top: 4rem;
+      color: $text-color1;
+      font-family: $roboto-font;
     }
   }
 </style>
